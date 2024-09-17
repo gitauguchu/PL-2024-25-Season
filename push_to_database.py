@@ -10,7 +10,7 @@ load_dotenv()
 functions = [league_table, top_scorers, detail_top, player_table, all_time_table, all_time_winner_club, top_scorers_seasons, goals_per_season]
 
 #Retrieving the database connection string from environment variables
-conn_string = ""
+conn_string = "postgres://gitau:40Sticks!!@plserver.postgres.database.azure.com:5432/postgres"
                  
 #Creating a database engine
 db = create_engine(conn_string)
