@@ -3,7 +3,8 @@ name : update premier league data
 
 #Define when the workflow should run
 on : 
- schedule : - cron : '0 0 * * 6,0' #Runs at 00:00 every Saturday and Sunday
+ schedule : 
+ - cron : '0 0 * * 6,0' #Runs at 00:00 every Saturday and Sunday
  workflow_dispatch : 
 
  #Define the jobs to be executed within the workflow
