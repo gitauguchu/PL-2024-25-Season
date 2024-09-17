@@ -1,0 +1,50 @@
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+#For push_to_database.py
+conn_string = os.getenv('CONN_STRING')
+
+#For push_to_blob.py
+connection_string = os.getenv('BLOB_CONN_STRING')
+
+#Name the Github Actions workflow
+name : update premier league data
+
+#Define when the workflow should run
+on : 
+ schedule : - cron : '0 0 * * 6,0' #Runs at 00:00 every Saturday and Sunday
+ workflow_dispatch : 
+
+ #Define the jobs to be executed within the workflow
+ jobs :
+  build :
+  #Specify the runner environment
+  runs-on : ubuntu-latest
+  steps :
+  
+  #Step 1 : Checkout the repo content
+  - name : checkout repo content
+  uses : actions/checkout@v2 #Checkout the repo content to GitHub runner
+
+  #Step 2 : Setup Python
+  - name : setup python
+  uses : actions/setup-python@v4
+  with : 
+  python-version : '3.9' #Installs the specified python version
+
+  #Step 3 : Install python packages
+  - name : install python packages
+  run : |
+  python -m pip install --upgrade pip
+  pip install -r requirements.txt
+
+  #Step 4 : Execute extract script
+  - name : execute extract script
+  env : 
+  #Set environment variables from GitHub secrets
+  BLOB_CONN_STRING : ${{ secrets.BLOB_CONN_STRING }}
+  CONN_STRING : ${{ secrets.CONN_STRING }}
+  #Run the 'main.py' script
+  run : python main.py
